@@ -1,1 +1,7 @@
 theme: jekyll-theme-slate
+
+navbar:
+  title: "College Football"
+  left:
+    - text: "Main"
+      href: index.html
