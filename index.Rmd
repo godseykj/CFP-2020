@@ -1,8 +1,9 @@
 ---
 title: "CFP"
 author: "Kara Godsey"
-date: "12/11/2020"
-output: html_document
+date: "`r Sys.Date()`"
+output:
+  rmdformats::downcute
 ---
 
 # College Football Playoff Analysis {.tabset .tabset-fade}
