@@ -20,6 +20,7 @@ suppressWarnings(library(ggrepel))
 suppressWarnings(library(xml2))
 suppressWarnings(library(shiny))
 suppressWarnings(library(shinythemes))
+suppressWarnings(library(webshot))
 ```
 
 ```{r pull_sched}
