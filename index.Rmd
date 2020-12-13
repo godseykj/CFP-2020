@@ -4,6 +4,7 @@ author: "Kara Godsey"
 date: "`r Sys.Date()`"
 output:
   rmdformats::downcute
+runtime: shiny
 ---
 
 # College Football Playoff Analysis {.tabset .tabset-fade}
@@ -15,15 +16,16 @@ suppressWarnings(library(knitr))
 suppressWarnings(library(rmdformats))
 suppressWarnings(library(kableExtra))
 suppressWarnings(library(ggplot2))
-suppressWarnings(library(DT))
 suppressWarnings(library(ggrepel))
 suppressWarnings(library(xml2))
+suppressWarnings(library(shiny))
+suppressWarnings(library(shinythemes))
 ```
 
 ```{r pull_sched}
 suppressWarnings(library(rvest))
 
-teams <- c("Florida", "OSU", "Alabama","ND","Clemson","TA&M","Iowa St","Cincy","Georgia","Miami(FL)","Oklahoma","Indiana","Coastal Carolina","Northwestern","USC","Iowa","UNC","BYU","Louisiana","Texas","Colorado","Oklahoma State","NC State","Tulsa","Missouri")
+teams <- c("Florida", "Ohio State", "Alabama","Notre Dame","Clemson","Texas A&M","Iowa State","Cincinnati","Georgia","Miami(FL)","Oklahoma","Indiana","Coastal Carolina","Northwestern","USC","Iowa","North Carolina","BYU","Louisiana","Texas","Colorado","Oklahoma State","NC State","Tulsa","Missouri")
 names(teams) <- c("florida","ohio-state","alabama","notre-dame","clemson","texas-am","iowa-state","cincinnati","georgia","miami-fl","oklahoma","indiana","coastal-carolina","northwestern","southern-california","iowa","north-carolina","brigham-young","louisiana-lafayette","texas","colorado","oklahoma-state","north-carolina-state","tulsa","missouri")
 urls <- paste0("https://www.sports-reference.com/cfb/schools/",names(teams),"/2020-schedule.html")
 
@@ -55,134 +57,19 @@ save(schedules, file = "Data/schedules_by_team.Rdata")
 load("Data/schedules_by_team.Rdata")
 ```
 
-## Alabama
+```{r shiny}
+#shiny app to make dropdown to choose schedule
 
-```{r print_table3}
-datatable(schedules[["Alabama"]], options = list(pageLength = 10))
-```
+shinyApp(
+  ui = fluidPage(titlePanel("2020 Schedules"),
+        selectInput("chosenteam", label = strong("Select a team:"), choices = c("Florida", "Ohio State", "Alabama","Notre Dame","Clemson","Texas A&M","Iowa State","Cincinnati","Georgia","Miami(FL)","Oklahoma","Indiana","Coastal Carolina","Northwestern","USC","Iowa","North Carolina","BYU","Louisiana","Texas","Colorado","Oklahoma State","NC State","Tulsa","Missouri")),
+        DTOutput('tbl')
+        ),
+  server = function(input,output) {
+    output$tbl = renderDT(
+      schedules[[input$chosenteam]], options = list(lengthChange = FALSE)
+    )
+  }
+)
 
-## BYU
-
-```{r print_table1}
-datatable(schedules[["BYU"]], options = list(pageLength = 10))
-```
-
-## Cincinnati
-
-```{r print_table5}
-datatable(schedules[["Cincy"]], options = list(pageLength = 10))
-```
-
-## Clemson
-
-```{r print_table6}
-datatable(schedules[["Clemson"]], options = list(pageLength = 10))
-```
-
-## Coastal Carolina
-```{r print_table7}
-datatable(schedules[["Coastal Carolina"]], options = list(pageLength = 10))
-```
-
-## Colorado
-
-```{r print_table8}
-datatable(schedules[["Colorado"]], options = list(pageLength = 10))
-```
-
-## Florida
-
-```{r print_table4}
-datatable(schedules[["Florida"]], options = list(pageLength = 10))
-```
-
-## Georgia
-```{r print_table9}
-datatable(schedules[["Georgia"]], options = list(pageLength = 10))
-```
-
-## Indiana
-```{r print_table10}
-datatable(schedules[["Indiana"]], options = list(pageLength = 10))
-```
-
-## Iowa State
-```{r print_table11}
-datatable(schedules[["Iowa St"]], options = list(pageLength = 10))
-```
-
-## Iowa
-```{r print_table12}
-datatable(schedules[["Iowa"]], options = list(pageLength = 10))
-```
-
-## Louisiana
-```{r print_table13}
-datatable(schedules[["Louisiana"]], options = list(pageLength = 10))
-```
-
-## Miami (FL)
-```{r print_table14}
-datatable(schedules[["Miami(FL)"]], options = list(pageLength = 10))
-```
-
-## Missouri
-```{r print_table15}
-datatable(schedules[["Missouri"]], options = list(pageLength = 10))
-```
-
-## NC State
-```{r print_table16}
-datatable(schedules[["NC State"]], options = list(pageLength = 10))
-```
-
-## Notre Dame
-```{r print_table17}
-datatable(schedules[["ND"]], options = list(pageLength = 10))
-```
-
-## Northwestern
-```{r print_table18}
-datatable(schedules[["Northwestern"]], options = list(pageLength = 10))
-```
-
-## Oklahoma State
-```{r print_table19}
-datatable(schedules[["Oklahoma State"]], options = list(pageLength = 10))
-```
-
-## Oklahoma
-```{r print_table20}
-datatable(schedules[["Oklahoma"]], options = list(pageLength = 10))
-```
-
-## Ohio State
-
-```{r print_table2}
-datatable(schedules[["OSU"]], options = list(pageLength = 10))
-```
-
-## Texas A&M
-```{r print_table21}
-datatable(schedules[["TA&M"]], options = list(pageLength = 10))
-```
-
-## Texas
-```{r print_table22}
-datatable(schedules[["Texas"]], options = list(pageLength = 10))
-```
-
-## Tulsa
-```{r print_table23}
-datatable(schedules[["Tulsa"]], options = list(pageLength = 10))
-```
-
-## North Carolina
-```{r print_table24}
-datatable(schedules[["UNC"]], options = list(pageLength = 10))
-```
-
-## USC
-```{r print_table25}
-datatable(schedules[["USC"]], options = list(pageLength = 10))
 ```
