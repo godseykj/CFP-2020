@@ -70,7 +70,7 @@ datatable(schedules[["BYU"]], options = list(pageLength = 10))
 ## Cincinnati
 
 ```{r print_table5}
-datatable(schedules[["Cincinnati"]], options = list(pageLength = 10))
+datatable(schedules[["Cincy"]], options = list(pageLength = 10))
 ```
 
 ## Clemson
